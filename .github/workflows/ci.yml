@@ -33,6 +33,8 @@ jobs:
       - name: Run bootstrap (clone + venv + deps + config, no key)
         # 不传 --key：验证「克隆仓库 / 建 venv / 装最小依赖 / 写 config.toml」整条链路
         # 真实生成视频需要 Pexels Key，不在 CI 内执行
+        env:
+          GIT_TERMINAL_PROMPT: "0"
         run: python scripts/bootstrap.py --repo ./MoneyPrinterTurbo --venv ./MoneyPrinterTurbo/.venv
 
       - name: Verify config written

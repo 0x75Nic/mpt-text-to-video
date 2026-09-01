@@ -38,7 +38,7 @@ _fix_encoding()
 HOME = os.path.expanduser("~")
 # WorkBuddy 的 managed venv 路径；非 WorkBuddy 环境通常不存在，会自动降级
 MANAGED_VENV = os.path.join(HOME, ".workbuddy", "binaries", "python", "envs", "default")
-REPO_URL = "https://github.com/FujiwaraChoki/MoneyPrinterTurbo.git"
+REPO_URL = "https://github.com/harry0703/MoneyPrinterTurbo.git"
 DEPS = ["openai==2.24.0", "edge_tts==7.2.7", "moviepy==2.2.1", "toml", "pydantic"]
 MIRROR = "https://mirrors.aliyun.com/pypi/simple/"
 

@@ -1,6 +1,6 @@
 # mpt-text-to-video
 
-把「一段文字描述 → 一条连贯短视频」跑通的 WorkBuddy 技能。底层用 [MoneyPrinterTurbo](https://github.com/FujiwaraChoki/MoneyPrinterTurbo) 的 `--video-script` 模式，**免 LLM Key**、免付费配音，只需一个 Pexels API Key。
+把「一段文字描述 → 一条连贯短视频」跑通的 WorkBuddy 技能。底层用 [MoneyPrinterTurbo](https://github.com/harry0703/MoneyPrinterTurbo) 的 `--video-script` 模式，**免 LLM Key**、免付费配音，只需一个 Pexels API Key。
 
 ## 它能做什么
 
