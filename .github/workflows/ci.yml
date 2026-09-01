@@ -1,0 +1,39 @@
+name: bootstrap-smoke-test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-bootstrap:
+    name: bootstrap on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Syntax check
+        run: python -m py_compile scripts/bootstrap.py
+
+      - name: Run bootstrap (clone + venv + deps + config, no key)
+        # 不传 --key：验证「克隆仓库 / 建 venv / 装最小依赖 / 写 config.toml」整条链路
+        # 真实生成视频需要 Pexels Key，不在 CI 内执行
+        run: python scripts/bootstrap.py --repo ./MoneyPrinterTurbo --venv ./MoneyPrinterTurbo/.venv
+
+      - name: Verify config written
+        shell: bash
+        run: |
+          test -f ./MoneyPrinterTurbo/config.toml && echo "config.toml OK" || exit 1
+          grep -q "open_task_folder_on_completion = false" ./MoneyPrinterTurbo/config.toml && echo "auto-open disabled OK" || exit 1
