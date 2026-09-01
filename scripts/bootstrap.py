@@ -21,6 +21,20 @@ import shutil
 import subprocess
 import argparse
 
+
+def _fix_encoding():
+    """强制 stdout/stderr 用 UTF-8，避免 Windows(cp1252)/Linux(C locale) 下中文 print 抛 UnicodeEncodeError。"""
+    for s in (sys.stdout, sys.stderr):
+        enc = getattr(s, "encoding", "") or ""
+        if enc.lower() not in ("utf-8", "utf8"):
+            try:
+                s.reconfigure(encoding="utf-8")
+            except Exception:
+                pass
+
+
+_fix_encoding()
+
 HOME = os.path.expanduser("~")
 # WorkBuddy 的 managed venv 路径；非 WorkBuddy 环境通常不存在，会自动降级
 MANAGED_VENV = os.path.join(HOME, ".workbuddy", "binaries", "python", "envs", "default")

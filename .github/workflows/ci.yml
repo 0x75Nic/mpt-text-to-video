@@ -12,6 +12,8 @@ jobs:
     name: bootstrap on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 20
+    env:
+      PYTHONUTF8: "1"
     strategy:
       fail-fast: false
       matrix:
