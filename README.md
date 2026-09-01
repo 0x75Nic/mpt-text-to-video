@@ -1,5 +1,7 @@
 # mpt-text-to-video
 
+![示例：由一段银发经济文案自动生成的横屏 16:9 视频封面](assets/cover.jpg)
+
 把「一段文字描述 → 一条连贯短视频」跑通的 WorkBuddy 技能。底层用 [MoneyPrinterTurbo](https://github.com/harry0703/MoneyPrinterTurbo) 的 `--video-script` 模式，**免 LLM Key**、免付费配音，只需一个 Pexels API Key。
 
 ## 它能做什么
@@ -8,6 +10,8 @@
 > 输出：一条带中文配音、Pexels 素材拼接的短视频（`final-1.mp4`），横屏/竖屏可选
 
 自动流水线：`分镜脚本 → 检索词 → Pexels 素材 → Edge TTS 中文配音 → 字幕(可选) → 拼接成片`
+
+![成片示例：多段 Pexels 素材自动拼接](assets/preview_grid.jpg)
 
 整条链路**只需一个 Pexels Key**，不依赖 OpenAI / Gemini / Whisper 等任何付费或重型服务。
 
