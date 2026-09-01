@@ -20,7 +20,7 @@
 
 ## 安装到 WorkBuddy
 
-把本仓库放到 WorkBuddy 的技能目录即可被识别：
+把本仓库放到 WorkBuddy 的技能目录即可被识别（自动触发）：
 
 ```bash
 # 用户级（跨项目）
@@ -30,12 +30,23 @@ cp -r mpt-text-to-video ~/.workbuddy/skills/
 cp -r mpt-text-to-video <你的项目>/.workbuddy/skills/
 ```
 
+## 兼容性：其他 AI 也能用吗？
+
+- **能自动识别**：实现了 skills 系统的 Agent —— WorkBuddy，以及 Claude Code / Codex 这类读取 `SKILL.md` 的客户端（本仓库的 `name` / `description` frontmatter 与它们兼容）。
+- **不能直接自动识别，但照样能用**：ChatGPT 网页版、普通聊天机器人等。它们不会去扫 GitHub 的 `SKILL.md`，但本仓库的 `README.md` + `scripts/bootstrap.py` 是纯 Markdown + 纯 Python，**任何 AI 或人都能读、能跑**。把本仓库链接丢给任意 AI，说「按 README 帮我生成一个 XX 主题视频」即可。
+- **跨平台 / 跨环境**：`bootstrap.py` 不依赖 WorkBuddy。在有 managed venv 的机器上复用它；否则自动在 `<repo>/.venv` 建隔离环境。Windows / macOS / Linux 均可用。
+
 ## 一键准备环境（可选但推荐）
 
 `scripts/bootstrap.py` 会把「克隆 MoneyPrinterTurbo → 建隔离 venv → 装最小依赖 → 写入 config.toml」封装成一步，幂等可重复跑：
 
 ```bash
+# WorkBuddy 环境
 python scripts/bootstrap.py --repo <任意目录>/MoneyPrinterTurbo --key <你的PEXELS_KEY>
+
+# 任意环境（venv 自动降级到 <repo>/.venv）
+python scripts/bootstrap.py --repo ./MoneyPrinterTurbo
+python scripts/bootstrap.py --repo ./MoneyPrinterTurbo --venv ./myenv --key <你的PEXELS_KEY>
 ```
 
 最小依赖（刻意避开 faster-whisper / litellm / streamlit 等重型包）：
@@ -44,8 +55,10 @@ python scripts/bootstrap.py --repo <任意目录>/MoneyPrinterTurbo --key <你�
 ## 手动跑一条视频
 
 ```bash
-PY="$HOME/.workbuddy/binaries/python/envs/default/Scripts/python.exe"   # Windows
-# PY="$HOME/.workbuddy/binaries/python/envs/default/bin/python"          # macOS / Linux
+# 解释器：优先用 bootstrap 建好的 venv
+PY="$HOME/.workbuddy/binaries/python/envs/default/Scripts/python.exe"   # Windows + WorkBuddy
+# PY="./MoneyPrinterTurbo/.venv/Scripts/python.exe"                      # Windows + 本地 venv
+# PY="./MoneyPrinterTurbo/.venv/bin/python"                              # macOS / Linux
 
 cd <你的>/MoneyPrinterTurbo
 SCRIPT=$(cat script.txt)
